@@ -6,24 +6,58 @@ import server_class as svc
 import re
 
 class Simulation(object):
-    def __init__(self,total_monomers=3000,monomer_A_fraction=0.5,monomer_attractions=(1,1,1),p=0.9,angle_strength=20,
+    """Object encapsulating simulation used for creating and deploying LAMMPS simulation files.
+
+    Parameters
+    ----------
+    total_monomers : int
+        Total number of monomers in the simulation.
+    
+    monomer_A_fraction : float
+        Fraction of monomers in the simulation that have identity A, the remaining monomers will have identity B
+
+    p : float
+        The reaction extent at which the simulation will stop
+
+    total_polymers : int
+        The total number of polymers in the simulation
+    
+    polymer_A_fraction : float
+        Fraction of polymers with identity A
+    """
+    def __init__(self,total_polymers=2,polymer_A_fraction=0.5,monomer_attractions=(1,1,1),p=0.9,angle_strength=20,
                     dump_frequency=1000,lt_dir = os.path.abspath('../../lt_files/'),
-                    xyz_dir = os.path.abspath('../../xyzs/'),send_to_cluster=False,servername=None):
-        self.total_monomers = total_monomers
-        self.monomer_A_fraction = monomer_A_fraction
+                    send_to_cluster=False,servername=None):
         self.p = p
         self.dump_frequency = dump_frequency
         self.lt_dir = os.path.abspath(lt_dir)
-        self.xyz_dir = os.path.abspath(xyz_dir)
         self.eAA,self.eBB,self.eAB = monomer_attractions
         self.angle_strength = angle_strength
         self.send_to_cluster=send_to_cluster
         if self.send_to_cluster:
             self.server_connection = svc.ServerConnection()
 
+    def create_polymer_lt_files(self,sequence,number):
+        module_directory, filename = os.path.split(__file__)
+        shutil.copy(os.path.join(module_directory,'genpoly_lt.py'),self.lt_dir)
+        os.chdir(self.lt_dir)
+        sequence_str = "\n".join(['ABEAD' if monomer=='A' else 'BBEAD' for monomer in sequence])+'\n'
+        with open('sequence.txt','w') as seq_file:
+            seq_file.write(sequence_str*number)
+        with open('cuts.txt','w') as cut_file:
+            seq_length = len(sequence)
+            cut_str = '\n'.join([str(i) for i in range(seq_length,seq_length*number,seq_length)])
+            cut_file.write(cut_str)
+        sb.call(["python","genpoly_lt.py","-header","import copolyff.lt\nimport a_bead.lt\nimport b_bead.lt",
+                                          "-inherits","COPOLYFF",
+                                          "-bond","COPOLYFF/Backbone","monomer","monomer",
+                                          "-sequence","sequence.txt",
+                                          "-cuts","cuts.txt",
+                                          "-polymer-name","DPDPoly"],stdin=open('./new_coords.raw','r'),stdout=open('dpdpoly.lt','w'))
+        sb.call(["sed","-i","s/\\\n/\\n/g","dpdpoly.lt"])
+
 
     def compile_simulation(self,packmol_path='packmol'):
-        self.change_monomer_count()
         self.change_monomer_attraction()
         self.change_angle_strength()
         os.chdir(self.xyz_dir)
