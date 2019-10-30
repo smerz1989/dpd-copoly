@@ -1,0 +1,6 @@
+        units lj
+        atom_style angle
+        pair_style hybrid dpd 3.0 2.5 583235
+        bond_style hybrid harmonic
+        angle_style hybrid harmonic
+        special_bonds lj 0.0 0.0 0.0

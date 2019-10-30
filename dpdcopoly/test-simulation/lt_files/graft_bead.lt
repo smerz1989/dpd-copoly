@@ -1,0 +1,17 @@
+import "copolyff.lt"
+
+GRAFTBEAD{
+    write("Data Atoms"){
+        $atom:ANCHOR $mol:. @atom:COPOLYFF/ANCHOR  0. -1.  0.
+        $atom:GR $mol:. @atom:COPOLYFF/GR  0.  0.  0.    
+        $atom:SA2 $mol:. @atom:COPOLYFF/ACTIVE  0.  1.  0.
+    }
+    write("Data Bonds"){
+        $bond:SA1A @bond:COPOLYFF/ASA $atom:ANCHOR $atom:GR
+        $bond:ASA2 @bond:COPOLYFF/ASA $atom:GR   $atom:SA2
+    }
+    write("Data Angles"){
+        $angle:SAASA @angle:COPOLYFF/SAASA $atom:ANCHOR $atom:GR $atom:SA2
+    }
+}
+

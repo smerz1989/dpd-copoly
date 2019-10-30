@@ -1,0 +1,40 @@
+COPOLYFF{
+    write_once("Data Masses"){
+        @atom:A  0.5
+        @atom:B  0.5
+    }
+    write_once("In Init"){
+        units lj
+        atom_style angle
+        pair_style hybrid dpd 3.0 2.5 583235
+        bond_style hybrid harmonic
+        angle_style hybrid harmonic
+        special_bonds lj 0.0 0.0 0.0
+    }
+    write_once("In Settings"){
+        pair_coeff @atom:A @atom:A dpd 3.0 1.0
+        pair_coeff @atom:B @atom:B dpd 3.0 1.0
+        pair_coeff @atom:B @atom:A dpd 8.0 1.0
+        
+        bond_coeff @bond:Backbone harmonic 1000 0.4       
+ 
+        angle_coeff @angle:AAA harmonic 20 180
+        angle_coeff @angle:BBB harmonic 20 180
+        angle_coeff @angle:BAA harmonic 20 180
+        angle_coeff @angle:ABA harmonic 20 180
+        angle_coeff @angle:AAB harmonic 20 180
+        angle_coeff @angle:ABB harmonic 20 180
+        angle_coeff @angle:BAB harmonic 20 180
+        angle_coeff @angle:BBA harmonic 20 180
+    }
+    write_once("Data Angles By Type"){
+        @angle:AAA @atom:A @atom:A @atom:A @bond:* @bond:*
+        @angle:BBB @atom:B @atom:B @atom:B @bond:* @bond:*
+        @angle:AAB @atom:A @atom:A @atom:B @bond:* @bond:*
+        @angle:ABA @atom:A @atom:B @atom:A @bond:* @bond:*
+        @angle:BAA @atom:B @atom:A @atom:A @bond:* @bond:*
+        @angle:ABB @atom:A @atom:B @atom:B @bond:* @bond:*
+        @angle:BAB @atom:B @atom:A @atom:B @bond:* @bond:*
+        @angle:BBA @atom:B @atom:B @atom:A @bond:* @bond:*
+    }
+}

@@ -1,0 +1,22 @@
+import "dpdpoly.lt"
+
+polymerA = new DPDPoly
+#polymerB = new CopolyB10.move(0,0,-3)[5].move(-2,0,0)[5].move(0,0,2)
+
+write_once("Data Boundary"){
+    0 40 xlo xhi
+    0 40 ylo yhi
+    0 40 zlo zhi
+}
+
+write_once("In Run"){
+  dump dxyz all atom 1000 poly.lammpstrj
+
+  comm_modify vel yes
+  thermo   200
+  minimize 1.0e-6 1.0e-8 10000 100000
+  timestep 0.001
+  velocity        all create 3.0 49840
+  fix      fxnve  all nve
+  run   500000
+}

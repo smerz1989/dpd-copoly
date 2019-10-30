@@ -1,0 +1,73 @@
+import "forcefield.lt"
+
+
+Copoly {
+
+
+
+create_var {$mol}
+# The line above forces all monomer subunits to share the same molecule-ID
+# (Note: Setting the molecule-ID number is optional and is usually ignored.)
+
+
+
+
+# ------------ List of Monomers: ------------
+#
+# (Note: move(), rot(), and rotvv() commands control the position
+#  of each monomer.  (See the moltemplate manual for an explanation
+#  of what they do.)  Commands enclosed in push() are cumulative
+#  and remain in effect until removed by pop().)
+
+
+
+push(move(0,0,0))
+pop()
+push(rotvv(1.0,0.0,0.0,0.0,1.0,0.0))
+push(move(0.0,0.0,0.0))
+mon[0] = new ABEAD.rot(0.0,1,0,0)
+pop()
+push(rotvv(0.0,1.0,0.0,0.0,1.0,0.0))
+push(move(0.0,1.1,0.0))
+mon[1] = new BBEAD.rot(0.0,1,0,0)
+pop()
+push(rotvv(0.0,1.0,0.0,0.0,1.0,0.0))
+push(move(0.0,2.2,0.0))
+mon[2] = new ABEAD.rot(0.0,1,0,0)
+pop()
+push(rotvv(0.0,1.0,0.0,0.0,1.0,0.0))
+push(move(0.0,3.3,0.0))
+mon[3] = new ABEAD.rot(0.0,1,0,0)
+pop()
+push(rotvv(0.0,1.0,0.0,0.0,1.0,0.0))
+push(move(0.0,4.4,0.0))
+mon[4] = new BBEAD.rot(0.0,1,0,0)
+pop()
+push(rotvv(0.0,1.0,0.0,0.0,1.0,0.0))
+push(move(0.0,5.5,0.0))
+mon[5] = new BBEAD.rot(0.0,1,0,0)
+pop()
+push(rotvv(0.0,1.0,0.0,0.0,1.0,0.0))
+push(move(0.0,6.6,0.0))
+mon[6] = new BBEAD.rot(0.0,1,0,0)
+pop()
+push(rotvv(0.0,1.0,0.0,0.0,1.0,0.0))
+push(move(0.0,7.7,0.0))
+mon[7] = new BBEAD.rot(0.0,1,0,0)
+
+
+write("Data Bonds") {
+  $bond:genpoly1 @bond:SASA SA1 SA2 $atom:mon[0]/-header $atom:mon[1]/'import "a_bead.lt"'
+  $bond:genpoly2 @bond:SASA SA1 SA2 $atom:mon[1]/-header $atom:mon[2]/'import "a_bead.lt"'
+  $bond:genpoly3 @bond:SASA SA1 SA2 $atom:mon[2]/-header $atom:mon[3]/'import "a_bead.lt"'
+  $bond:genpoly4 @bond:SASA SA1 SA2 $atom:mon[3]/-header $atom:mon[4]/'import "a_bead.lt"'
+  $bond:genpoly5 @bond:SASA SA1 SA2 $atom:mon[4]/-header $atom:mon[5]/'import "a_bead.lt"'
+  $bond:genpoly6 @bond:SASA SA1 SA2 $atom:mon[5]/-header $atom:mon[6]/'import "a_bead.lt"'
+  $bond:genpoly7 @bond:SASA SA1 SA2 $atom:mon[6]/-header $atom:mon[7]/'import "a_bead.lt"'
+}  # write("Data Bonds") {...
+
+
+}  # Copoly
+
+
+

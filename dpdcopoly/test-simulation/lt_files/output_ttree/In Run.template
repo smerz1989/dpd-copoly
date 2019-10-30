@@ -1,0 +1,9 @@
+  dump dxyz all atom 1000 poly.lammpstrj
+
+  comm_modify vel yes
+  thermo   200
+  minimize 1.0e-6 1.0e-8 10000 100000
+  timestep 0.001
+  velocity        all create 3.0 49840
+  fix      fxnve  all nve
+  run   500000

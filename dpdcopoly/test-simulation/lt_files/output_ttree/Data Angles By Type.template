@@ -1,0 +1,8 @@
+        @/angle:COPOLYFF/AAA @/atom:COPOLYFF/A @/atom:COPOLYFF/A @/atom:COPOLYFF/A @/bond:COPOLYFF/* @/bond:COPOLYFF/*
+        @/angle:COPOLYFF/BBB @/atom:COPOLYFF/B @/atom:COPOLYFF/B @/atom:COPOLYFF/B @/bond:COPOLYFF/* @/bond:COPOLYFF/*
+        @/angle:COPOLYFF/AAB @/atom:COPOLYFF/A @/atom:COPOLYFF/A @/atom:COPOLYFF/B @/bond:COPOLYFF/* @/bond:COPOLYFF/*
+        @/angle:COPOLYFF/ABA @/atom:COPOLYFF/A @/atom:COPOLYFF/B @/atom:COPOLYFF/A @/bond:COPOLYFF/* @/bond:COPOLYFF/*
+        @/angle:COPOLYFF/BAA @/atom:COPOLYFF/B @/atom:COPOLYFF/A @/atom:COPOLYFF/A @/bond:COPOLYFF/* @/bond:COPOLYFF/*
+        @/angle:COPOLYFF/ABB @/atom:COPOLYFF/A @/atom:COPOLYFF/B @/atom:COPOLYFF/B @/bond:COPOLYFF/* @/bond:COPOLYFF/*
+        @/angle:COPOLYFF/BAB @/atom:COPOLYFF/B @/atom:COPOLYFF/A @/atom:COPOLYFF/B @/bond:COPOLYFF/* @/bond:COPOLYFF/*
+        @/angle:COPOLYFF/BBA @/atom:COPOLYFF/B @/atom:COPOLYFF/B @/atom:COPOLYFF/A @/bond:COPOLYFF/* @/bond:COPOLYFF/*

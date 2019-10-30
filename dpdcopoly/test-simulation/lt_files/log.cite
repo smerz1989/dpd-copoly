@@ -1,0 +1,13 @@
+This LAMMPS simulation made specific use of work described in the
+following references.  See http://lammps.sandia.gov/cite.html
+for details.
+
+@Article{Sirk2012
+ author = {T. Sirk and Y. Sliozberg and J. Brennan and M. Lisal and J. Andzelm},
+ title = {An enhanced entangled polymer model for dissipative particle dynamics},
+ journal = {J.~Chem.~Phys.},
+ year =    2012,
+ volume =  136,
+ pages =   {134903}
+}
+

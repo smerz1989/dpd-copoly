@@ -1,0 +1,14 @@
+        pair_coeff 1 1 dpd 3.0 1.0
+        pair_coeff 2 2 dpd 3.0 1.0
+pair_coeff 1 2 dpd 8.0 1.0
+        
+        bond_coeff 1 harmonic 1000 0.4       
+ 
+        angle_coeff 1 harmonic 20 180
+        angle_coeff 2 harmonic 20 180
+        angle_coeff 3 harmonic 20 180
+        angle_coeff 4 harmonic 20 180
+        angle_coeff 5 harmonic 20 180
+        angle_coeff 6 harmonic 20 180
+        angle_coeff 7 harmonic 20 180
+        angle_coeff 8 harmonic 20 180

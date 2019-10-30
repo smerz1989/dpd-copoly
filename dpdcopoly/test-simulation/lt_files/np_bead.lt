@@ -1,0 +1,7 @@
+import "copolyff.lt"
+
+NPBEAD{
+	write("Data Atoms"){
+		$atom:NP $mol:. @atom:COPOLYFF/NP 0. 0. 0.
+	}
+}

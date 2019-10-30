@@ -1,0 +1,165 @@
+import "a_bead.lt"
+import "b_bead.lt"
+import "graft_bead.lt"
+
+
+CopolyAB25 inherits COPOLYFF {
+
+
+
+create_var {$mol}
+# The line above forces all monomer subunits to share the same molecule-ID
+# (Note: Setting the molecule-ID number is optional and is usually ignored.)
+
+
+
+
+# ------------ List of Monomers: ------------
+#
+# (Note: move(), rot(), and rotvv() commands control the position
+#  of each monomer.  (See the moltemplate manual for an explanation
+#  of what they do.)  Commands enclosed in push() are cumulative
+#  and remain in effect until removed by pop().)
+
+
+
+push(move(0,0,0))
+pop()
+push(rotvv(1.0,0.0,0.0,0.0,1.0,0.0))
+push(move(0.0,0.0,0.0))
+mon[0] = new GRAFTBEAD.rot(0.0,1,0,0)
+pop()
+push(rotvv(0.0,1.0,0.0,0.0,1.0,0.0))
+push(move(0.0,1.1,0.0))
+mon[1] = new ABEAD.rot(0.0,1,0,0)
+pop()
+push(rotvv(0.0,1.0,0.0,0.0,1.0,0.0))
+push(move(0.0,2.2,0.0))
+mon[2] = new BBEAD.rot(0.0,1,0,0)
+pop()
+push(rotvv(0.0,1.0,0.0,0.0,1.0,0.0))
+push(move(0.0,3.3,0.0))
+mon[3] = new ABEAD.rot(0.0,1,0,0)
+pop()
+push(rotvv(0.0,1.0,0.0,0.0,1.0,0.0))
+push(move(0.0,4.4,0.0))
+mon[4] = new BBEAD.rot(0.0,1,0,0)
+pop()
+push(rotvv(0.0,1.0,0.0,0.0,1.0,0.0))
+push(move(0.0,5.5,0.0))
+mon[5] = new ABEAD.rot(0.0,1,0,0)
+pop()
+push(rotvv(0.0,1.0,0.0,0.0,1.0,0.0))
+push(move(0.0,6.6,0.0))
+mon[6] = new BBEAD.rot(0.0,1,0,0)
+pop()
+push(rotvv(0.0,1.0,0.0,0.0,1.0,0.0))
+push(move(0.0,7.7,0.0))
+mon[7] = new ABEAD.rot(0.0,1,0,0)
+pop()
+push(rotvv(0.0,1.0,0.0,0.0,1.0,0.0))
+push(move(0.0,8.8,0.0))
+mon[8] = new BBEAD.rot(0.0,1,0,0)
+pop()
+push(rotvv(0.0,1.0,0.0,0.0,1.0,0.0))
+push(move(0.0,9.9,0.0))
+mon[9] = new ABEAD.rot(0.0,1,0,0)
+pop()
+push(rotvv(0.0,1.0,0.0,0.0,1.0,0.0))
+push(move(0.0,11.0,0.0))
+mon[10] = new BBEAD.rot(0.0,1,0,0)
+pop()
+push(rotvv(0.0,1.0,0.0,0.0,1.0,0.0))
+push(move(0.0,12.1,0.0))
+mon[11] = new ABEAD.rot(0.0,1,0,0)
+pop()
+push(rotvv(0.0,1.0,0.0,0.0,1.0,0.0))
+push(move(0.0,13.2,0.0))
+mon[12] = new BBEAD.rot(0.0,1,0,0)
+pop()
+push(rotvv(0.0,1.0,0.0,0.0,1.0,0.0))
+push(move(0.0,14.3,0.0))
+mon[13] = new ABEAD.rot(0.0,1,0,0)
+pop()
+push(rotvv(0.0,1.0,0.0,0.0,1.0,0.0))
+push(move(0.0,15.4,0.0))
+mon[14] = new BBEAD.rot(0.0,1,0,0)
+pop()
+push(rotvv(0.0,1.0,0.0,0.0,1.0,0.0))
+push(move(0.0,16.5,0.0))
+mon[15] = new ABEAD.rot(0.0,1,0,0)
+pop()
+push(rotvv(0.0,1.0,0.0,0.0,1.0,0.0))
+push(move(0.0,17.6,0.0))
+mon[16] = new BBEAD.rot(0.0,1,0,0)
+pop()
+push(rotvv(0.0,1.0,0.0,0.0,1.0,0.0))
+push(move(0.0,18.7,0.0))
+mon[17] = new ABEAD.rot(0.0,1,0,0)
+pop()
+push(rotvv(0.0,1.0,0.0,0.0,1.0,0.0))
+push(move(0.0,19.8,0.0))
+mon[18] = new BBEAD.rot(0.0,1,0,0)
+pop()
+push(rotvv(0.0,1.0,0.0,0.0,1.0,0.0))
+push(move(0.0,20.9,0.0))
+mon[19] = new ABEAD.rot(0.0,1,0,0)
+pop()
+push(rotvv(0.0,1.0,0.0,0.0,1.0,0.0))
+push(move(0.0,22.0,0.0))
+mon[20] = new BBEAD.rot(0.0,1,0,0)
+pop()
+push(rotvv(0.0,1.0,0.0,0.0,1.0,0.0))
+push(move(0.0,23.1,0.0))
+mon[21] = new ABEAD.rot(0.0,1,0,0)
+pop()
+push(rotvv(0.0,1.0,0.0,0.0,1.0,0.0))
+push(move(0.0,24.2,0.0))
+mon[22] = new BBEAD.rot(0.0,1,0,0)
+pop()
+push(rotvv(0.0,1.0,0.0,0.0,1.0,0.0))
+push(move(0.0,25.3,0.0))
+mon[23] = new ABEAD.rot(0.0,1,0,0)
+pop()
+push(rotvv(0.0,1.0,0.0,0.0,1.0,0.0))
+push(move(0.0,26.4,0.0))
+mon[24] = new BBEAD.rot(0.0,1,0,0)
+pop()
+push(rotvv(0.0,1.0,0.0,0.0,1.0,0.0))
+push(move(0.0,27.5,0.0))
+mon[25] = new ABEAD.rot(0.0,1,0,0)
+
+
+write("Data Bonds") {
+  $bond:genpoly1 @bond:SASA $atom:mon[0]/SA2 $atom:mon[1]/SA1
+  $bond:genpoly2 @bond:SASA $atom:mon[1]/SA2 $atom:mon[2]/SA1
+  $bond:genpoly3 @bond:SASA $atom:mon[2]/SA2 $atom:mon[3]/SA1
+  $bond:genpoly4 @bond:SASA $atom:mon[3]/SA2 $atom:mon[4]/SA1
+  $bond:genpoly5 @bond:SASA $atom:mon[4]/SA2 $atom:mon[5]/SA1
+  $bond:genpoly6 @bond:SASA $atom:mon[5]/SA2 $atom:mon[6]/SA1
+  $bond:genpoly7 @bond:SASA $atom:mon[6]/SA2 $atom:mon[7]/SA1
+  $bond:genpoly8 @bond:SASA $atom:mon[7]/SA2 $atom:mon[8]/SA1
+  $bond:genpoly9 @bond:SASA $atom:mon[8]/SA2 $atom:mon[9]/SA1
+  $bond:genpoly10 @bond:SASA $atom:mon[9]/SA2 $atom:mon[10]/SA1
+  $bond:genpoly11 @bond:SASA $atom:mon[10]/SA2 $atom:mon[11]/SA1
+  $bond:genpoly12 @bond:SASA $atom:mon[11]/SA2 $atom:mon[12]/SA1
+  $bond:genpoly13 @bond:SASA $atom:mon[12]/SA2 $atom:mon[13]/SA1
+  $bond:genpoly14 @bond:SASA $atom:mon[13]/SA2 $atom:mon[14]/SA1
+  $bond:genpoly15 @bond:SASA $atom:mon[14]/SA2 $atom:mon[15]/SA1
+  $bond:genpoly16 @bond:SASA $atom:mon[15]/SA2 $atom:mon[16]/SA1
+  $bond:genpoly17 @bond:SASA $atom:mon[16]/SA2 $atom:mon[17]/SA1
+  $bond:genpoly18 @bond:SASA $atom:mon[17]/SA2 $atom:mon[18]/SA1
+  $bond:genpoly19 @bond:SASA $atom:mon[18]/SA2 $atom:mon[19]/SA1
+  $bond:genpoly20 @bond:SASA $atom:mon[19]/SA2 $atom:mon[20]/SA1
+  $bond:genpoly21 @bond:SASA $atom:mon[20]/SA2 $atom:mon[21]/SA1
+  $bond:genpoly22 @bond:SASA $atom:mon[21]/SA2 $atom:mon[22]/SA1
+  $bond:genpoly23 @bond:SASA $atom:mon[22]/SA2 $atom:mon[23]/SA1
+  $bond:genpoly24 @bond:SASA $atom:mon[23]/SA2 $atom:mon[24]/SA1
+  $bond:genpoly25 @bond:SASA $atom:mon[24]/SA2 $atom:mon[25]/SA1
+}  # write("Data Bonds") {...
+
+
+}  # CopolyAB25 inherits COPOLYFF
+
+
+
