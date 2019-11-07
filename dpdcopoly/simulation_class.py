@@ -42,17 +42,21 @@ class Simulation(object):
     def create_polymer_xyz_files(self,number):
         print('placeholder')
 
-    def create_polymer_lt_files(self,sequence,number):
+    def create_polymer_lt_files(self,sequences,numbers):
         module_directory, filename = os.path.split(__file__)
         shutil.copy(os.path.join(module_directory,'genpoly_lt.py'),self.lt_dir)
         os.chdir(self.lt_dir)
-        sequence_str = "\n".join(['ABEAD' if monomer=='A' else 'BBEAD' for monomer in sequence])+'\n'
+	sequence_str=""
+	for sequence in sequences:
+            sequence_str += "\n".join(['ABEAD' if monomer=='A' else 'BBEAD' for monomer in sequence])+'\n'
         with open('sequence.txt','w') as seq_file:
             seq_file.write(sequence_str*number)
         with open('cuts.txt','w') as cut_file:
-            seq_length = len(sequence)
-            cut_str = '\n'.join([str(i) for i in range(seq_length,seq_length*number,seq_length)])
-            cut_file.write(cut_str)
+	    cut_str=""
+	    for number, sequence in zip(numbers,sequences):
+                seq_length = len(sequence)
+                cut_str = '\n'.join([str(i) for i in range(seq_length,seq_length*number,seq_length)])
+                cut_file.write(cut_str)
         sb.call(["python","genpoly_lt.py","-header","import copolyff.lt\nimport a_bead.lt\nimport b_bead.lt",
                                           "-inherits","COPOLYFF",
                                           "-bond","COPOLYFF/Backbone","monomer","monomer",
@@ -63,8 +67,8 @@ class Simulation(object):
 
 
     def compile_simulation(self,packmol_path='packmol'):
-        for sequence in self.sequences:
-            self.create_polymer_lt_files(sequence,self.total_polymers)
+        #for sequence in self.sequences:
+        self.create_polymer_lt_files(self.sequences,[self.total_polymers*polymer_A_fraction,self.total_polymers-self.total_polymers*polymer_A_fraction])
         self.change_monomer_attraction()
         self.change_angle_strength()
         os.chdir(self.lt_dir)
