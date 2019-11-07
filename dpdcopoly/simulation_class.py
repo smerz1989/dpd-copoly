@@ -25,12 +25,11 @@ class Simulation(object):
     polymer_A_fraction : float
         Fraction of polymers with identity A
     """
-    def __init__(self,sequence,total_polymers=2,polymer_A_fraction=0.5,monomer_attractions=(1,1,1),p=0.9,angle_strength=20,
+    def __init__(self,sequences,total_polymers=2,polymer_A_fraction=0.5,monomer_attractions=(1,1,1),angle_strength=20,
                     dump_frequency=1000,xyz_dir = os.path.abspath('../../xyzs/'),lt_dir = os.path.abspath('../../lt_files/'),
                     send_to_cluster=False,servername=None):
-        self.sequence = sequence
+        self.sequences = sequences
         self.total_polymers = total_polymers
-        self.p = p
         self.dump_frequency = dump_frequency
         self.xyz_dir = os.path.abspath(xyz_dir)
         self.lt_dir = os.path.abspath(lt_dir)
@@ -40,7 +39,7 @@ class Simulation(object):
         if self.send_to_cluster:
             self.server_connection = svc.ServerConnection()
 
-    def create_polymer_lt_files(self,number):
+    def create_polymer_xyz_files(self,number):
         print('placeholder')
 
     def create_polymer_lt_files(self,sequence,number):
@@ -64,19 +63,12 @@ class Simulation(object):
 
 
     def compile_simulation(self,packmol_path='packmol'):
-        self.create_polymer_lt_files(self.sequence,self.total_polymers)
+        for sequence in self.sequences:
+            self.create_polymer_lt_files(sequence,self.total_polymers)
         self.change_monomer_attraction()
         self.change_angle_strength()
-        #os.chdir(self.xyz_dir)
-        #try:
-        #    sb.call([packmol_path],stdin=open('np.inp'))
-        #except OSError as error:
-        #    print(error)
-        #    print(("\nPackmol is not found in packmol in path."
-        #           "  Add packmol directory to PATH environment\n"
-        #            "variable or pass directory to the compile_simulation function as packmol_path argument.\n"))
-        #    raise
         os.chdir(self.lt_dir)
+        print(os.listdir(os.path.abspath('.')))
         sb.call(["moltemplate.sh","-atomstyle","angle","system.lt"])
         sb.call(["sed","-i",'s/a\\"/a\\"\ extra\/special\/per\/atom\ 4\ extra\/bond\/per\/atom\ 2\ extra\/angle\/per\/atom\ 2/g',"system.in"])
         sb.call(["sed","-i",'s/\!\(.*\)\!/\$\{\\1\}/g',"system.in.run"])

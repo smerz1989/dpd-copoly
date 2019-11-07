@@ -2,6 +2,8 @@ COPOLYFF{
     write_once("Data Masses"){
         @atom:A  0.5
         @atom:B  0.5
+	@atom:AALCHEMICAL  0.5
+        @atom:BALCHEMICAL  0.5
     }
     write_once("In Init"){
         units lj
@@ -14,7 +16,15 @@ COPOLYFF{
     write_once("In Settings"){
         pair_coeff @atom:A @atom:A dpd 3.0 1.0
         pair_coeff @atom:B @atom:B dpd 3.0 1.0
+        pair_coeff @atom:AALCHEMICAL @atom:AALCHEMICAL dpd 3.0 1.0
+        pair_coeff @atom:BALCHEMICAL @atom:BALCHEMICAL dpd 3.0 1.0
+
         pair_coeff @atom:B @atom:A dpd 8.0 1.0
+        pair_coeff @atom:A @atom:AALCHEMICAL dpd 3.0 1.0
+        pair_coeff @atom:A @atom:BALCHEMICAL dpd 8.0 1.0
+        pair_coeff @atom:B @atom:AALCHEMICAL dpd 8.0 1.0
+        pair_coeff @atom:B @atom:BALCHEMICAL dpd 3.0 1.0
+        pair_coeff @atom:AALCHEMICAL @atom:BALCHEMICAL dpd 8.0 1.0
         
         bond_coeff @bond:Backbone harmonic 1000 0.4       
  

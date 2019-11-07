@@ -1,0 +1,7 @@
+import "copolyff.lt"
+
+BBEADALCHEMICAL{
+    write("Data Atoms"){
+        $atom:monomer $mol:. @atom:COPOLYFF/BALCHEMICAL 0. 0. 0.
+    }
+}
