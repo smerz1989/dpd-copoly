@@ -29,6 +29,7 @@ class Simulation(object):
                     dump_frequency=1000,xyz_dir = os.path.abspath('../../xyzs/'),lt_dir = os.path.abspath('../../lt_files/'),
                     send_to_cluster=False,servername=None):
         self.sequences = sequences
+        self.polymer_A_fraction = polymer_A_fraction
         self.total_polymers = total_polymers
         self.dump_frequency = dump_frequency
         self.xyz_dir = os.path.abspath(xyz_dir)
@@ -46,17 +47,20 @@ class Simulation(object):
         module_directory, filename = os.path.split(__file__)
         shutil.copy(os.path.join(module_directory,'genpoly_lt.py'),self.lt_dir)
         os.chdir(self.lt_dir)
-	sequence_str=""
-	for sequence in sequences:
-            sequence_str += "\n".join(['ABEAD' if monomer=='A' else 'BBEAD' for monomer in sequence])+'\n'
+        sequence_str = ["\n".join(['ABEAD' if monomer=='A' else 'BBEAD' for monomer in sequence])+'\n' for sequence in sequences]
         with open('sequence.txt','w') as seq_file:
-            seq_file.write(sequence_str*number)
+            print("sequence_str is {} and numbers are {}".format(sequence_str, numbers))
+            for number,sequence in zip(numbers,sequence_str):
+                print("Writing {} to seq_file".format(sequence*number))
+                seq_file.write(sequence*number)
         with open('cuts.txt','w') as cut_file:
-	    cut_str=""
-	    for number, sequence in zip(numbers,sequences):
+            cut_str=""
+            offset=0
+            for number, sequence in zip(numbers,sequences):
                 seq_length = len(sequence)
-                cut_str = '\n'.join([str(i) for i in range(seq_length,seq_length*number,seq_length)])
+                cut_str = '\n'.join([str(i+offset) for i in range(seq_length,seq_length*number,seq_length)])+'\n'
                 cut_file.write(cut_str)
+                offset+=seq_length*(number-1)
         sb.call(["python","genpoly_lt.py","-header","import copolyff.lt\nimport a_bead.lt\nimport b_bead.lt",
                                           "-inherits","COPOLYFF",
                                           "-bond","COPOLYFF/Backbone","monomer","monomer",
@@ -68,7 +72,8 @@ class Simulation(object):
 
     def compile_simulation(self,packmol_path='packmol'):
         #for sequence in self.sequences:
-        self.create_polymer_lt_files(self.sequences,[self.total_polymers*polymer_A_fraction,self.total_polymers-self.total_polymers*polymer_A_fraction])
+        self.create_polymer_lt_files(self.sequences,[int(self.total_polymers*self.polymer_A_fraction),
+                                                     int(self.total_polymers-self.total_polymers*self.polymer_A_fraction)])
         self.change_monomer_attraction()
         self.change_angle_strength()
         os.chdir(self.lt_dir)
@@ -112,7 +117,7 @@ class Simulation(object):
 
     def move_simulation_files(self,dest_dir,slurm):
         dest_folder = os.path.abspath(dest_dir+'/copoly_{}polymers_{}sequence_{}epsAA_{}epsBB_{}epsAB'.format(self.total_polymers,
-                                                                                                    self.sequence,
+                                                                                                    self.sequences,
                                                                                                     self.eAA,self.eBB,self.eAB))
         self.dest_folder = dest_folder
         if not os.path.exists(dest_folder):
