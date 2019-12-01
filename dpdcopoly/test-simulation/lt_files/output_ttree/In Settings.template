@@ -1,6 +1,14 @@
         pair_coeff @/atom:COPOLYFF/A @/atom:COPOLYFF/A dpd 3.0 1.0
         pair_coeff @/atom:COPOLYFF/B @/atom:COPOLYFF/B dpd 3.0 1.0
+        pair_coeff @/atom:COPOLYFF/AALCHEMICAL @/atom:COPOLYFF/AALCHEMICAL dpd 3.0 1.0
+        pair_coeff @/atom:COPOLYFF/BALCHEMICAL @/atom:COPOLYFF/BALCHEMICAL dpd 3.0 1.0
+
         pair_coeff @/atom:COPOLYFF/B @/atom:COPOLYFF/A dpd 8.0 1.0
+        pair_coeff @/atom:COPOLYFF/A @/atom:COPOLYFF/AALCHEMICAL dpd 3.0 1.0
+        pair_coeff @/atom:COPOLYFF/A @/atom:COPOLYFF/BALCHEMICAL dpd 5.0 1.0
+        pair_coeff @/atom:COPOLYFF/B @/atom:COPOLYFF/AALCHEMICAL dpd 0.0 1.0
+        pair_coeff @/atom:COPOLYFF/B @/atom:COPOLYFF/BALCHEMICAL dpd 3.0 1.0
+        pair_coeff @/atom:COPOLYFF/AALCHEMICAL @/atom:COPOLYFF/BALCHEMICAL dpd 8.0 1.0
         
         bond_coeff @/bond:COPOLYFF/Backbone harmonic 1000 0.4       
  

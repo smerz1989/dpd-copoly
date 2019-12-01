@@ -1,0 +1,30 @@
+  dump dxyz all atom 1000 poly.lammpstrj
+
+  variable TK equal 3.0
+  variable PBAR equal 1.0
+  thermo_style multi
+  thermo   200
+  timestep 0.001
+  neighbor 2.0 bin
+  minimize 1.0e-6 1.0e-8 10000 100000
+  
+  velocity        all create 3.0 49840
+  fix TSTAT all nvt temp 3.0 3.0 100
+  run 100000
+  reset_timestep 0  
+
+  variable lambda equal ramp(0.0,1.0)
+
+  fix ADAPT all adapt/fep 100000 & 
+    pair lj/cut/soft lambda @/atom:COPOLYFF/B @/atom:COPOLYFF/A v_lambda &
+    after yes   
+  
+  fix PRINT all print 100000 "adapt lambda = v_lambda"
+  variable dlambda equal 0.05
+
+  compute FEP all fep 3.0 &
+    pair lj/cut/soft lambda @/atom:COPOLYFF/B @/atom:COPOLYFF/A v_dlambda
+
+  fix FEP all ave/time 20 4000 100000 c_FEP[1] c_FEP[2] file fep01.lmp
+
+  run   2000000

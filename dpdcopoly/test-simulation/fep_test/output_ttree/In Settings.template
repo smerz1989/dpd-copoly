@@ -1,0 +1,15 @@
+        pair_coeff @/atom:COPOLYFF/A @/atom:COPOLYFF/A lj/cut/soft 5 1.0 1.0
+        pair_coeff @/atom:COPOLYFF/B @/atom:COPOLYFF/B lj/cut/soft 5 1.0 0.0
+
+        pair_coeff @/atom:COPOLYFF/B @/atom:COPOLYFF/A lj/cut/soft 20 1.0 0.0
+        
+        bond_coeff @/bond:COPOLYFF/Backbone harmonic 1000 0.4       
+ 
+        angle_coeff @/angle:COPOLYFF/AAA harmonic 20 180
+        angle_coeff @/angle:COPOLYFF/BBB harmonic 20 180
+        angle_coeff @/angle:COPOLYFF/BAA harmonic 20 180
+        angle_coeff @/angle:COPOLYFF/ABA harmonic 20 180
+        angle_coeff @/angle:COPOLYFF/AAB harmonic 20 180
+        angle_coeff @/angle:COPOLYFF/ABB harmonic 20 180
+        angle_coeff @/angle:COPOLYFF/BAB harmonic 20 180
+        angle_coeff @/angle:COPOLYFF/BBA harmonic 20 180

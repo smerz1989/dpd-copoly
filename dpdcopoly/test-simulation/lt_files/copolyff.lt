@@ -21,8 +21,8 @@ COPOLYFF{
 
         pair_coeff @atom:B @atom:A dpd 8.0 1.0
         pair_coeff @atom:A @atom:AALCHEMICAL dpd 3.0 1.0
-        pair_coeff @atom:A @atom:BALCHEMICAL dpd 8.0 1.0
-        pair_coeff @atom:B @atom:AALCHEMICAL dpd 8.0 1.0
+        pair_coeff @atom:A @atom:BALCHEMICAL dpd 5.0 1.0
+        pair_coeff @atom:B @atom:AALCHEMICAL dpd 0.0 1.0
         pair_coeff @atom:B @atom:BALCHEMICAL dpd 3.0 1.0
         pair_coeff @atom:AALCHEMICAL @atom:BALCHEMICAL dpd 8.0 1.0
         

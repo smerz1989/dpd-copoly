@@ -41,13 +41,20 @@ class Simulation(object):
             self.server_connection = svc.ServerConnection()
 
     def create_polymer_xyz_files(self,number):
-        print('placeholder')
+        cur_path = os.path.abspath('.')
+        os.chdir(self.lt_dir)
+        scaling_factor = number/(14.**3)
+        distance = 1.
+        scaled_distance = distance/scaling_factor
+        sb.call(["interpolate_mt.py",str(int(number)),str(scaled_distance)],stdin=open('./coords.raw','r'),stdout=open('new_coords.raw','w'))
+        os.chdir(cur_path) 
 
     def create_polymer_lt_files(self,sequences,numbers):
         module_directory, filename = os.path.split(__file__)
+        cur_path = os.path.abspath('.')
         shutil.copy(os.path.join(module_directory,'genpoly_lt.py'),self.lt_dir)
         os.chdir(self.lt_dir)
-        sequence_str = ["\n".join(['ABEAD' if monomer=='A' else 'BBEAD' for monomer in sequence])+'\n' for sequence in sequences]
+        sequence_str = ["\n".join(['ABEAD' if monomer=='A' else 'BBEAD' for monomer in sequence])+'\n' if i==0 else "\n".join(['ABEADALCHEMICAL' if monomer=='A' else 'BBEADALCHEMICAL' for monomer in sequence])+'\n' for i,sequence in enumerate(sequences)]
         with open('sequence.txt','w') as seq_file:
             print("sequence_str is {} and numbers are {}".format(sequence_str, numbers))
             for number,sequence in zip(numbers,sequence_str):
@@ -61,17 +68,19 @@ class Simulation(object):
                 cut_str = '\n'.join([str(i+offset) for i in range(seq_length,seq_length*number,seq_length)])+'\n'
                 cut_file.write(cut_str)
                 offset+=seq_length*(number-1)
-        sb.call(["python","genpoly_lt.py","-header","import copolyff.lt\nimport a_bead.lt\nimport b_bead.lt",
+        sb.call(["python","genpoly_lt.py","-header","import copolyff.lt\nimport a_bead.lt\nimport b_bead.lt\nimport a_bead_alchemical.lt\nimport b_bead_alchemical.lt",
                                           "-inherits","COPOLYFF",
                                           "-bond","COPOLYFF/Backbone","monomer","monomer",
                                           "-sequence","sequence.txt",
                                           "-cuts","cuts.txt",
                                           "-polymer-name","DPDPoly"],stdin=open('./new_coords.raw','r'),stdout=open('dpdpoly.lt','w'))
         sb.call(["sed","-i","s/\\\n/\\n/g","dpdpoly.lt"])
-
+        os.chdir(cur_path)
 
     def compile_simulation(self,packmol_path='packmol'):
         #for sequence in self.sequences:
+        num_monomers = int(self.total_polymers*self.polymer_A_fraction)*len(self.sequences[0])+int(self.total_polymers-self.total_polymers*self.polymer_A_fraction)*len(self.sequences[1])
+        self.create_polymer_xyz_files(num_monomers)
         self.create_polymer_lt_files(self.sequences,[int(self.total_polymers*self.polymer_A_fraction),
                                                      int(self.total_polymers-self.total_polymers*self.polymer_A_fraction)])
         self.change_monomer_attraction()
@@ -86,9 +95,9 @@ class Simulation(object):
     def change_monomer_attraction(self):
         cur_path = os.path.abspath('.')
         os.chdir(self.lt_dir)
-        sb.call(["sed","-i",'/\@atom\:A\ \@atom\:A/ s/twopiece\ [0-9]\?\.\?[0-9]\?/twopiece\ '+str(self.eAA)+'/g','copolyff.lt'])
-        sb.call(["sed","-i",'/\@atom\:A\ \@atom\:B/ s/twopiece\ [0-9]\?\.\?[0-9]\?/twopiece\ '+str(self.eAB)+'/g','copolyff.lt'])
-        sb.call(["sed","-i",'/\@atom\:B\ \@atom\:B/ s/twopiece\ [0-9]\?\.\?[0-9]\?/twopiece\ '+str(self.eBB)+'/g','copolyff.lt'])
+        sb.call(["sed","-i",'/\@atom\:A\ \@atom\:A/ s/dpd\ [0-9]\?\.\?[0-9]\?/dpd\ '+str(self.eAA)+'/g','copolyff.lt'])
+        sb.call(["sed","-i",'/\@atom\:A\ \@atom\:B/ s/dpd\ [0-9]\?\.\?[0-9]\?/dpd\ '+str(self.eAB)+'/g','copolyff.lt'])
+        sb.call(["sed","-i",'/\@atom\:B\ \@atom\:B/ s/dpd\ [0-9]\?\.\?[0-9]\?/dpd\ '+str(self.eBB)+'/g','copolyff.lt'])
         os.chdir(cur_path)
 
     def change_extent_of_reaction(self):

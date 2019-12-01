@@ -1,0 +1,6 @@
+        units lj
+        atom_style full
+        pair_style hybrid lj/cut/soft 2 0.5 3.0
+        bond_style hybrid harmonic
+        angle_style hybrid harmonic
+        special_bonds lj 0.0 0.0 0.0

@@ -1,9 +1,33 @@
   dump dxyz all atom 1000 poly.lammpstrj
 
+  variable TK equal 3.0
+  variable PBAR equal 1.0
+  variable lambda equal ramp(0.0,1.0)
+  variable a0 equal 3.0*v_lambda 
+  
   comm_modify vel yes
   thermo   200
   minimize 1.0e-6 1.0e-8 10000 100000
   timestep 0.001
   velocity        all create 3.0 49840
   fix      fxnve  all nve
+  run 20000
+
+  reset_timestep 0
+
+  fix ADAPT all adapt/fep 10000 & 
+    pair dpd a0 1*2 3 v_a0 &
+    pair dpd a0 1*2 4 v_a0 &
+    after yes   
+  
+  fix PRINT all print 10000 "adapt lambda = v_lambda a0 = v_a0"
+  variable dlambda equal 0.02
+  variable da0 equal 3.0*v_dlambda
+
+  compute FEP all fep 3.0 &
+    pair dpd a0 1*2 3 v_da0 &
+    pair dpd a0 1*2 4 v_da0
+
+  fix FEP all ave/time 5 2000 10000 c_FEP[1] c_FEP[2] file fep01.lmp
+
   run   500000

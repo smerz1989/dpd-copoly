@@ -1,0 +1,7 @@
+import "copolyff.lt"
+
+ABEAD{
+    write("Data Atoms"){
+        $atom:monomer $mol:. @atom:COPOLYFF/A 0. 0. 0. 0.
+    }
+}
