@@ -4,6 +4,32 @@ import glob
 import shutil
 import server_class as svc
 import re
+import sys
+def sed_call(expression,filename):
+    """
+       To call sed command differently for linux and mac system
+       
+       Parameters
+       -----------
+       expression: str
+            substitution command s/ followed by replacement string
+            the line to replace in the file
+       filename: str
+                Name of input file
+        
+       Returns
+       -------
+       str
+            return subprocess the sed command that is resulted.
+            
+        
+    """
+    if sys.platform == 'linux':
+        sed = ['sed','-i']+[expression] + [filename]
+    
+    else:
+        sed=['sed','-i','',]+[expression] + [filename]
+    return sb.call(sed)
 
 class Simulation(object):
     """Object encapsulating simulation used for creating and deploying LAMMPS simulation files.
@@ -74,7 +100,8 @@ class Simulation(object):
                                           "-sequence","sequence.txt",
                                           "-cuts","cuts.txt",
                                           "-polymer-name","DPDPoly"],stdin=open('./new_coords.raw','r'),stdout=open('dpdpoly.lt','w'))
-        sb.call(["sed","-i","s/\\\n/\\n/g","dpdpoly.lt"])
+        sed_call("s/\\n/\\n/g","dpdpoly.lt")
+        #sb.call(["sed","-i","s/\\\n/\\n/g","dpdpoly.lt"])
         os.chdir(cur_path)
 
     def compile_simulation(self,packmol_path='packmol'):
@@ -88,22 +115,22 @@ class Simulation(object):
         os.chdir(self.lt_dir)
         print(os.listdir(os.path.abspath('.')))
         sb.call(["moltemplate.sh","-atomstyle","angle","system.lt"])
-        sb.call(["sed","-i",'s/a\\"/a\\"\ extra\/special\/per\/atom\ 4\ extra\/bond\/per\/atom\ 2\ extra\/angle\/per\/atom\ 2/g',"system.in"])
-        sb.call(["sed","-i",'s/\!\(.*\)\!/\$\{\\1\}/g',"system.in.run"])
-        sb.call(["sed","-i",'s/\!(\(.*\))/\$(\\1)/g',"system.in.run"])
+        sed_call('s/a\\"/a\\"\ extra\/special\/per\/atom\ 4\ extra\/bond\/per\/atom\ 2\ extra\/angle\/per\/atom\ 2/g',"system.in")
+        sed_call('s/\!\(.*\)\!/\$\{\\1\}/g',"system.in.run")
+        sed_call('s/\!(\(.*\))/\$(\\1)/g',"system.in.run")
     
     def change_monomer_attraction(self):
         cur_path = os.path.abspath('.')
         os.chdir(self.lt_dir)
-        sb.call(["sed","-i",'/\@atom\:A\ \@atom\:A/ s/dpd\ [0-9]\?\.\?[0-9]\?/dpd\ '+str(self.eAA)+'/g','copolyff.lt'])
-        sb.call(["sed","-i",'/\@atom\:A\ \@atom\:B/ s/dpd\ [0-9]\?\.\?[0-9]\?/dpd\ '+str(self.eAB)+'/g','copolyff.lt'])
-        sb.call(["sed","-i",'/\@atom\:B\ \@atom\:B/ s/dpd\ [0-9]\?\.\?[0-9]\?/dpd\ '+str(self.eBB)+'/g','copolyff.lt'])
+        sed_call('/\@atom\:A\ \@atom\:A/ s/dpd\ [0-9]\?\.\?[0-9]\?/dpd\ '+str(self.eAA)+'/g','copolyff.lt')
+        sed_call('/\@atom\:A\ \@atom\:B/ s/dpd\ [0-9]\?\.\?[0-9]\?/dpd\ '+str(self.eAB)+'/g','copolyff.lt')
+        sed_call('/\@atom\:B\ \@atom\:B/ s/dpd\ [0-9]\?\.\?[0-9]\?/dpd\ '+str(self.eBB)+'/g','copolyff.lt')
         os.chdir(cur_path)
 
     def change_extent_of_reaction(self):
         cur_path = os.path.abspath('.')
         os.chdir(self.lt_dir)
-        sb.call(["sed","-i",'/if\ \\"/ s/>\ \?[0-9]\?\.\?[0-9]\?[0-9]\?/>\ '+str(self.p)+'/g'])
+        sb.call(sed_call('/if\ \\"/ s/>\ \?[0-9]\?\.\?[0-9]\?[0-9]\?/>\ '+str(self.p)+'/g'))
         os.chdir(cur_path)
 
     def change_monomer_count(self):
@@ -111,17 +138,17 @@ class Simulation(object):
         num_monA = int(self.total_monomers*self.monomer_A_fraction)
         num_monB = self.total_monomers-num_monA
         os.chdir(self.xyz_dir)
-        sb.call(["sed","-i",'/abead/,/bbead/ s/number\ [0-9]\+/number\ '+str(num_monA)+'/g',"np.inp"])
-        sb.call(["sed","-i",'/bbead/,+2 s/number\ [0-9]\+/number\ '+str(num_monB)+'/g',"np.inp"])
+        sed_call('/abead/,/bbead/ s/number\ [0-9]\+/number\ '+str(num_monA)+'/g',"np.inp")
+        sed_call('/bbead/,+2 s/number\ [0-9]\+/number\ '+str(num_monB)+'/g',"np.inp")
         os.chdir(self.lt_dir)
-        sb.call(["sed",'-i','s/ABEAD\ \[[0-9]\+\]/ABEAD\ \['+str(num_monA)+'\]/g',"system.lt"])
-        sb.call(["sed",'-i','s/BBEAD\ \[[0-9]\+\]/BBEAD\ \['+str(num_monB)+'\]/g',"system.lt"])
+        sed_call('s/ABEAD\ \[[0-9]\+\]/ABEAD\ \['+str(num_monA)+'\]/g',"system.lt")
+        sed_call('s/BBEAD\ \[[0-9]\+\]/BBEAD\ \['+str(num_monB)+'\]/g',"system.lt")
         os.chdir(curr_dir)
 
     def change_angle_strength(self):
         cur_path = os.path.abspath('.')
         os.chdir(self.lt_dir)
-        sb.call(["sed","-i",'s/angle_coeff\(.*\)\ [0-9]\?\.\?[0-9]\?\ /angle_coeff\\1\ '+str(self.angle_strength)+'\ /g','copolyff.lt'])
+        sed_call('s/angle_coeff\(.*\)\ [0-9]\?\.\?[0-9]\?\ /angle_coeff\\1\ '+str(self.angle_strength)+'\ /g','copolyff.lt')
         os.chdir(cur_path)
 
     def move_simulation_files(self,dest_dir,slurm):
@@ -162,7 +189,7 @@ class Simulation(object):
         if slurm:
             sb.call(["sbatch","submit.sbatch"])
         elif os.path.exists(singularity_path):
-            sb.Popen(["singularity","run",singularity,"-i","system.in"],stdout=open('lmp_output.out','w'))
+            sb.Popen(['singularity',"run",singularity,"-i","system.in"],stdout=open('lmp_output.out','w'))
         else:
             sb.Popen([lmp_file,"-i","system.in"],stdout=open("lmp_output.out",'w'))
 
