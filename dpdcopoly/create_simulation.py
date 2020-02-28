@@ -34,7 +34,7 @@ sim = smc.Simulation(sequences=args.sequences.split(','),
 sim.compile_simulation()
 if not args.send_to_cluster:
     sim.move_simulation_files(project_path,slurm=args.slurm)
-    sim.start_simulation(slurm  = args.slurm,singularity=os.path.expanduser("~/copoly_bondreact_kspace.sif"))
+    sim.start_simulation(slurm  = args.slurm,lmp_file="lmp_dpd")
 else:
     sim.move_simulation_files_remote(project_path,slurm=args.slurm)
     sim.start_simulation_remote()

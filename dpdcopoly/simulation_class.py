@@ -188,8 +188,8 @@ class Simulation(object):
         print("Singularity path is {}".format(singularity_path))
         if slurm:
             sb.call(["sbatch","submit.sbatch"])
-        elif os.path.exists(singularity_path):
-            sb.Popen(['singularity',"run",singularity,"-i","system.in"],stdout=open('lmp_output.out','w'))
+        #elif os.path.exists(singularity_path):
+         #   sb.Popen(['singularity',"run",singularity,"-i","system.in"],stdout=open('lmp_output.out','w'))
         else:
             sb.Popen([lmp_file,"-i","system.in"],stdout=open("lmp_output.out",'w'))
 
